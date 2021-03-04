@@ -1,0 +1,1463 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "DM商城，DcPa支付系统,DM商城移动端，小程序接口",
+        "description": "基于Node.js express 和 Swagger 等一系列开发的 API",
+        "version": "1.0.0"
+    },
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Bearer": {
+            "description": "",
+            "Bearer": "",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "paths": {
+        "/api/Login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "登录获取账户信息及token注意要是jsong格式，“userinfo”:{“username”:“xxx”,“pwd”:“xxx”}",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "登录用户名密码",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "userInfo": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "登录成功"
+                    },
+                    "400": {
+                        "description": "用户已经存在"
+                    }
+                }
+            }
+        },
+        "/api/home": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "获取首页信息",
+                "responses": {
+                    "200": {
+                        "description": "获取成功"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                }
+            }
+        },
+        "/api/upload": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "上传用户头像图片",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "uid",
+                        "description": "用户的UID",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "file",
+                        "description": "上传的图片，不能超过2M",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取token成功"
+                    },
+                    "-1": {
+                        "description": "图片超出了大小，或者格式不正确"
+                    },
+                    "500": {
+                        "description": "服务器内部错误"
+                    }
+                }
+            }
+        },
+        "/api/city": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "获取城市列表",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "失败"
+                    }
+                }
+            }
+        },
+        "/api/validate": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "持久化验证登录",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "authorization",
+                        "description": "请求头携带的token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "已登录"
+                    },
+                    "400": {
+                        "description": "未登录登录"
+                    }
+                }
+            }
+        },
+        "/api/modifyUserInfo": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "修改用户信息",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "传入用户信息修改用户信息",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "uid": {
+                                            "type": "number"
+                                        },
+                                        "user_name": {
+                                            "type": "string",
+                                            "example": "用户的名称"
+                                        },
+                                        "sex": {
+                                            "type": "string",
+                                            "example": "性别"
+                                        },
+                                        "user_autograph": {
+                                            "type": "string",
+                                            "example": "个性签名"
+                                        },
+                                        "user_time": {
+                                            "type": "string",
+                                            "example": "生日"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "修改成功"
+                    },
+                    "400": {
+                        "description": "修改"
+                    }
+                }
+            }
+        },
+        "/api/verification": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "登录验证码 svg",
+                "responses": {}
+            }
+        },
+        "/api/listgood": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "获取商品分类数据，一页8条数据",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "val",
+                        "description": "类别名称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "分类的页数",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "in": "query",
+                        "name": "srot",
+                        "description": "排序，否升降排序 1升序 -1 倒序",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "in": "query",
+                        "name": "gt",
+                        "description": "价格最小",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "in": "query",
+                        "name": "lte",
+                        "description": "价格最大",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/navData": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "获取导航分类，app端class页面数据",
+                "description": "app端class页面数据",
+                "responses": {
+                    "200": {
+                        "description": "获取成功"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/search": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "搜索商品",
+                "description": "搜索商品",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "val",
+                        "description": "商品名称",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "搜索成功"
+                    },
+                    "400": {
+                        "description": "搜索失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/getSerchHot": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "获取热搜的商品名字",
+                "description": "热搜排行榜",
+                "responses": {
+                    "200": {
+                        "description": "搜索成功"
+                    },
+                    "400": {
+                        "description": "搜索失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/GoodItem": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "添加购物车Item",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "添加的商品 uid用户的标识号,data,添加的商品的信息，配置好页面后详细的填",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "isAdd": {
+                                    "type": "boolean"
+                                },
+                                "isWeb": {
+                                    "type": "boolean"
+                                },
+                                "uid": {
+                                    "type": "number"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "suplist_id": {
+                                            "type": "number"
+                                        },
+                                        "suplist_num": {
+                                            "type": "number"
+                                        },
+                                        "price": {
+                                            "type": "number"
+                                        },
+                                        "sup_id": {
+                                            "type": "number"
+                                        },
+                                        "size": {
+                                            "type": "string"
+                                        },
+                                        "style": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:product",
+                            "read:product"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/dellGoodItem": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "指定购物车id删除",
+                "description": "指定购物车id删除",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "根据id删除购物车，isAdd要填false",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "isAdd": {
+                                    "type": "boolean"
+                                },
+                                "isWeb": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "404": {
+                        "description": "失败"
+                    }
+                }
+            }
+        },
+        "/api/getItem": {
+            "post": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "根据商品的spec_id获取商品信息",
+                "description": "根据商品的spec_id获取商品信息",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "根据商品的spec_id获取商品信息",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {},
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/getHistory": {
+            "post": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "获取商品的历史列表",
+                "description": "根据商品的id获取商品信息",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "data的类型是array",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/History"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "修改成功"
+                    },
+                    "400": {
+                        "description": "修改"
+                    }
+                }
+            }
+        },
+        "/api/Donation": {
+            "post": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "获取捐赠列表",
+                "description": "获取捐赠列表",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "page(当前的页数), size(每页的数量), index(排序规则 0是默认， 1是名字升序2是名字降序，3是捐赠升序4是捐赠降序，5是金额升序6是金额降序，7是时间升序8是时间降序，)",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "page": {
+                                    "type": "number"
+                                },
+                                "size": {
+                                    "type": "number"
+                                },
+                                "index": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "修改成功"
+                    },
+                    "400": {
+                        "description": "修改"
+                    }
+                }
+            }
+        },
+        "/api/submitOrder": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "time:'2020-02-06 2021-02-06 01:21:09'ps:精确到秒  订单编号 orid:'20200206012109' 订单状态type:0 uid:123 用户的名称userNickName：'aaa' 地址address:object 订单商品列表data：arr",
+                "description": "time:'2020-02-06 2021-02-06 01:21:09'ps:精确到秒  订单编号 orid:'20200206012109' 订单状态type:0 uid:123 用户的名称userNickName：'aaa' 地址address:object 订单商品列表data：arr",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "description": "前端根据购物车数据请仔细填完",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Order不存在"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/getOrder": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "获取订单",
+                "description": "传入用户的UID获取用户的订单列表,携带orderid（可选）获取uid的指列表",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "orderid",
+                        "description": "传入uid获取指定的用户订单列表",
+                        "required": false,
+                        "type": "number",
+                        "properties": {
+                            "uid": {
+                                "type": "number"
+                            },
+                            "order_id": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/getScrollOrder": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "获取滑动或者分页的订单列表",
+                "description": "用户的uid(uid:number),当前的页数（page:number），当前的页数的订单数量（size:number），当前页数的状态0-3取值（idx：number）",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "用户的uid(uid:number),当前的页数（page:number），当前的页数的订单数量（size:number），当前页数的状态0-3取值（idx：number）",
+                        "required": true,
+                        "type": "number",
+                        "properties": {
+                            "uid": {
+                                "type": "number"
+                            },
+                            "page": {
+                                "type": "number"
+                            },
+                            "size": {
+                                "type": "number"
+                            },
+                            "idx": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/dellOrder": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "传入订单列表删除订单",
+                "description": "oder_id:'string'(订单编号)，data_list:‘array’(删除订单子商品的每项)，id:'number'(删除订单子商品的id每项的id)",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "description": "oder_id:'string'(订单编号)，data_list:‘array’(删除订单子商品的每项)，id:'number'(删除订单子商品的id每项的id)",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dellorder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/subAddress": {
+            "post": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "提交用户的地址",
+                "description": "新建地址不要传入ID，修改地址要传入ID。 difall：number（是否为默认地址，0是默认地址，1为不是默认地址）",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "新建地址不要传入ID，修改地址要传入ID。 difall：number（是否为默认地址，0是默认地址，1为不是默认地址）",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "uid": {
+                                            "type": "number"
+                                        },
+                                        "difall": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "phone": {
+                                            "type": "number"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": "云南-丽江-xx"
+                                        },
+                                        "address_info": {
+                                            "type": "string",
+                                            "example": "地址详情"
+                                        }
+                                    }
+                                },
+                                "order_id": {
+                                    "type": "string",
+                                    "example": "传入订单编号可以修改订单上的地址，为传入请删除"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/dellAddress": {
+            "post": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "获取指定id的删除地址",
+                "description": "获取指定id的删除地址",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "获取指定id的删除地址",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/orderType": {
+            "post": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "携带token查询订单是否已经支付",
+                "description": "携带token查询订单是否已经支付",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "token",
+                        "description": "携带token查询订单是否已经支付",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "支付成功"
+                    },
+                    "400": {
+                        "description": "未检测到支付"
+                    },
+                    "401": {
+                        "description": "token解析失败"
+                    },
+                    "402": {
+                        "description": "未检测到订单"
+                    },
+                    "500": {
+                        "description": "请求被驳回"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/play": {
+            "post": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "web提交支付订单",
+                "description": "web提交支付订单",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "token",
+                        "description": "play_id:number(为0是支付宝官方支付 1是支付宝免签支付 2是微信免签支付)。pirce:number(价格)。isNum:number(1是自定义输入金额，0不是自定义输入金额)。  info参数详见获取套餐API /api/payType",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "play_id": {
+                                    "type": "number"
+                                },
+                                "order_id": {
+                                    "type": "strimg",
+                                    "example": "订单编号"
+                                },
+                                "pirce": {
+                                    "type": "number"
+                                },
+                                "email": {
+                                    "type": "strimg",
+                                    "example": "用户的邮箱"
+                                },
+                                "info": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "price": {
+                                            "type": "number"
+                                        },
+                                        "titel": {
+                                            "type": "string"
+                                        },
+                                        "info": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "mesg": {
+                                    "type": "strimg",
+                                    "example": "用户的留言"
+                                },
+                                "isNum": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/DcPlay": {
+            "post": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "DcPay提交支付订单",
+                "description": "DcPay提交支付订单",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "token",
+                        "description": "play_id:number(为0是支付宝官方支付 1是支付宝免签支付 2是微信免签支付)。pirce:number(价格)。address:object(详见提交地址Api ​/api​/subAddress)。isNum:number(1是自定义输入金额，0不是自定义输入金额)。  info参数详见获取套餐API /api/payType",
+                        "required": false,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "play_id": {
+                                    "type": "number"
+                                },
+                                "order_id": {
+                                    "type": "strimg",
+                                    "example": "订单编号"
+                                },
+                                "userNickName": {
+                                    "type": "strimg",
+                                    "example": "用户的昵称"
+                                },
+                                "pirce": {
+                                    "type": "number"
+                                },
+                                "email": {
+                                    "type": "strimg",
+                                    "example": "用户的邮箱"
+                                },
+                                "info": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "price": {
+                                            "type": "number"
+                                        },
+                                        "titel": {
+                                            "type": "string"
+                                        },
+                                        "info": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "address": {
+                                    "type": "object",
+                                    "properties": {
+                                        "address": {
+                                            "type": "string"
+                                        },
+                                        "phone": {
+                                            "type": "string"
+                                        },
+                                        "address_info": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "mesg": {
+                                    "type": "strimg",
+                                    "example": "用户的留言"
+                                },
+                                "isNum": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/xxx": {
+            "post": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "支付宝回调地址",
+                "description": "暂未写出",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/payType": {
+            "post": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "获取套餐",
+                "description": "获取套餐",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/upOrder": {
+            "get": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "审核通过",
+                "description": "获取token审核通过",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "description": "获取token审核通过",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/back": {
+            "get": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "审核驳回",
+                "description": "获取token审核驳回",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "description": "获取token审核驳回",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/passNotShowUrl": {
+            "get": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "通过订单但删除该支付数据",
+                "description": "通过订单但删除该支付数据",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "description": "获取token通过操作订单但删除该支付数据",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/delUrl": {
+            "get": {
+                "tags": [
+                    "Pay"
+                ],
+                "summary": "删除支付数据",
+                "description": "获取token删除指定的订单",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "description": "获取token删除指定的订单",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功，data为用户的订单列表"
+                    },
+                    "400": {
+                        "description": "获取失败"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            "write:order",
+                            "read:order"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "History": {
+            "type": "number",
+            "xml": {
+                "name": "History"
+            }
+        },
+        "dellorder": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "oder_id": {
+                            "type": "string",
+                            "example": "订单编号"
+                        },
+                        "data_list": {
+                            "type": "array",
+                            "xml": {
+                                "name": "data_list",
+                                "wrapped": true
+                            },
+                            "items": {
+                                "$ref": "#/definitions/data_list"
+                            }
+                        }
+                    }
+                }
+            },
+            "xml": {
+                "name": "dellorder"
+            }
+        },
+        "data_list": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "example": "被删除的子商品信息的ID"
+                }
+            },
+            "xml": {
+                "name": "data_list"
+            }
+        },
+        "list": {
+            "type": "object",
+            "properties": {
+                "img_url1": {
+                    "type": "string",
+                    "example": "商品的图片"
+                },
+                "spu_title": {
+                    "type": "string",
+                    "example": "商品的名字"
+                }
+            },
+            "xml": {
+                "name": "list"
+            }
+        },
+        "Tag": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "xml": {
+                        "name": "list",
+                        "wrapped": true
+                    },
+                    "items": {
+                        "$ref": "#/definitions/list"
+                    }
+                },
+                "order_id": {
+                    "type": "number",
+                    "example": "订单编号"
+                },
+                "suplist_id": {
+                    "type": "string",
+                    "example": "子商品ID"
+                },
+                "style": {
+                    "type": "string",
+                    "example": "薄荷绿"
+                },
+                "size": {
+                    "type": "string",
+                    "example": "x"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "suplist_num": {
+                    "type": "number",
+                    "example": "数量"
+                },
+                "sup_id": {
+                    "type": "number"
+                }
+            },
+            "xml": {
+                "name": "Tag"
+            }
+        },
+        "order": {
+            "type": "object",
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "time": {
+                    "type": "string",
+                    "example": "2020-02-06 2021-02-06 01:21:09"
+                },
+                "type": {
+                    "type": "number",
+                    "example": "提交的订单都为0"
+                },
+                "orid": {
+                    "type": "number"
+                },
+                "uid": {
+                    "type": "number"
+                },
+                "userNickName": {
+                    "type": "string",
+                    "example": "替换成用户的昵称"
+                },
+                "Address": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string",
+                            "example": "地址：列如 云南-丽江-xxx"
+                        },
+                        "phone": {
+                            "type": "number",
+                            "example": "电话"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "地址的姓名"
+                        },
+                        "address_info": {
+                            "type": "string",
+                            "example": "地址详情"
+                        }
+                    }
+                },
+                "data": {
+                    "type": "array",
+                    "xml": {
+                        "name": "tag",
+                        "wrapped": true
+                    },
+                    "items": {
+                        "$ref": "#/definitions/Tag"
+                    }
+                }
+            },
+            "xml": {
+                "name": "Pet"
+            }
+        }
+    }
+}
