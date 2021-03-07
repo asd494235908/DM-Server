@@ -2,7 +2,7 @@
 [![](https://img.shields.io/badge/version-1.0-brightgreen)](https://github.com/asd494235908/DM-Server)
 [![GitHub stars](https://img.shields.io/github/stars/asd494235908/DM-Server.svg?style=social&label=Stars)](https://github.com/asd494235908/DM-Server)
 [![GitHub forks](https://img.shields.io/github/forks/asd494235908/DM-Server.svg?style=social&label=Fork)](https://github.com/asd494235908/DM-Server)
-- [若图片显示不完整请跳转码云](https://gitee.com/dcmaomi/Dm)
+- [若图片显示不完整请跳转码云](https://gitee.com/dcmaomi/dm-server)
 ### 前台项目已部署，在线Demo
 - DM商城：https://www.dcmaomi.com
 - Dcpay前台：https://dcpay.dcmaomi.com
